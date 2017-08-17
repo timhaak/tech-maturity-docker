@@ -6,8 +6,8 @@ ENV DEBIAN_FRONTEND="noninteractive" \
     LANGUAGE="en_US.UTF-8" \
     LC_ALL="C.UTF-8" \
     TERM="xterm" \
-    TZ="/usr/share/zoneinfo/UTC" \
-    NODE_ENV=production
+    TZ="/usr/share/zoneinfo/UTC"
+
 
 RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup &&\
     echo "Acquire::http {No-Cache=True;};" > /etc/apt/apt.conf.d/no-cache && \
@@ -67,11 +67,11 @@ RUN git clone https://github.com/timhaak/tech-maturity.git /site/tech-maturity &
     npm install && \
     npm run prod
 
+ENV NODE_ENV=production
+
 ADD ./files /site/nginx
 
 RUN chmod u+x  /nginx/start.sh
-# && \
-#    ln -sf /usr/share/zoneinfo/Africa/Johannesburg /etc/localtime
 
 WORKDIR /site/
 
