@@ -38,15 +38,14 @@ RUN echo "force-unsafe-io" > /etc/dpkg/dpkg.cfg.d/02apt-speedup &&\
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/*
 
-RUN echo "deb http://ppa.launchpad.net/nginx/development/ubuntu zesty main" >  /etc/apt/sources.list.d/nginx-development.list && \
-    echo "deb-src http://ppa.launchpad.net/nginx/development/ubuntu zesty main" >> /etc/apt/sources.list.d/nginx-development.list && \
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C300EE8C
+RUN echo "deb http://nginx.org/packages/debian/ jessie nginx" >  /etc/apt/sources.list.d/nginx.list && \
+    echo "deb-src http://nginx.org/packages/debian/ jessie nginx" >> /etc/apt/sources.list.d/nginx-development.list && \
+    wget https://nginx.org/keys/nginx_signing.key -O - | apt-key add -
 
 RUN apt-get update && \
-        apt-get install -qy \
-        nginx-extras \
+    apt-get install -qy \
+        nginx \
         && \
-    pip install xlsx2csv && \
     apt-get -y autoremove && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/* && \
