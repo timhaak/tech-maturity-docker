@@ -74,7 +74,7 @@ ADD ./files/start.sh /start.sh
 ADD ./files/supervisord.conf /supervisord.conf
 
 RUN chmod u+x  /start.sh && \
-    chown -R nginx: /site
+    chown -R nginx: /site/tech-maturity/dist
 
 WORKDIR /site/
 
