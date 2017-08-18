@@ -69,12 +69,15 @@ RUN git clone https://github.com/timhaak/tech-maturity.git /site/tech-maturity &
 
 ENV NODE_ENV=production
 
-ADD ./files /site/nginx
+ADD ./files/nginx_config /site/nginx_config
+ADD ./files/start.sh /start.sh
+ADD ./files/supervisord.conf /supervisord.conf
 
-RUN chmod u+x  /nginx/start.sh
+RUN chmod u+x  /start.sh && \
+    chown -R nginx: /site
 
 WORKDIR /site/
 
 EXPOSE 80 443
 
-CMD ["/nginx/start.sh"]
+CMD ["/start.sh"]
