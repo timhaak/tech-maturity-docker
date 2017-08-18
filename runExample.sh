@@ -3,4 +3,4 @@ docker run \
   -d \
   --name tm \
   -p 80:80 \
-  dr.haak.co/tech-maturity
+  timhaak/tech-maturity
