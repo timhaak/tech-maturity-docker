@@ -17,7 +17,7 @@ pipeline {
 
     stage ('Build container') {
       steps {
-        sh "docker build --pull --rm -t dr.haak.co/tech-maturity ."
+        sh "docker build --pull --no-cache --rm -t dr.haak.co/tech-maturity ."
         sh "docker tag dr.haak.co/tech-maturity:latest dr.haak.co/tech-maturity:${env.GIT_COMMIT}"
       }
     }
