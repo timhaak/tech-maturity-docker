@@ -15,10 +15,21 @@ ln -sf /site/db/techdb.db /site/tech-maturity-api/src/database/techdb.db
 #fi
 
 echo "Initialise db if it doesn't exist"
-if [ ! -f /site/tech-maturity-api/dist/database/techdb.db/CURRENT ]; then
+if [ ! -f /site/tech-maturity-api/src/database/techdb.db/CURRENT ]; then
+    echo "Initialising Data"
     babel-node /site/tech-maturity-api/src --presets env &
-    curl localhost:8080/api/initialise
-    curl localhost:8080/api/initialise
+    sleep 2
+    curl http://localhost:8080/api/initialise
+    pkill -f tech-maturity-api
+fi
+
+TEST_DATA=$(curl -o /dev/null --silent --head --write-out '%{http_code}\n' http://localhost/api/asset_type)
+
+if [ "${TEST_DATA}" = "404" ]; then
+    echo "Initialising Data"
+    babel-node /site/tech-maturity-api/src --presets env &
+    sleep 2
+    curl http://localhost:8080/api/initialise
     pkill -f tech-maturity-api
 fi
 
