@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 echo "Making sure directories exist"
 mkdir -p /site/logs/nginx
 mkdir -p /site/logs/supervisor
@@ -20,7 +20,9 @@ sleep 2
 
 TEST_DATA=$(curl -o /dev/null --silent --head --write-out '%{http_code}\n' http://localhost/api/asset_type)
 
-if [ "${TEST_DATA}" != "200" ]; then
+echo "Test for data returned ${TEST_DATA}"
+
+if [ "${TEST_DATA}" = "404" ]; then
     echo "Initialising Data"
     curl http://localhost:8080/api/initialise
     pkill -f tech-maturity-api
