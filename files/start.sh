@@ -15,7 +15,7 @@ ln -sf /site/db/techdb.db /site/tech-maturity-api/src/database/techdb.db
 #fi
 
 echo "Starting servers"
-/usr/bin/supervisord -n -c /supervisord.conf &
+babel-node /site/tech-maturity-api/src --presets env &
 sleep 2
 
 TEST_DATA=$(curl -o /dev/null --silent --head --write-out '%{http_code}\n' http://localhost/api/asset_type)
@@ -23,6 +23,7 @@ TEST_DATA=$(curl -o /dev/null --silent --head --write-out '%{http_code}\n' http:
 if [ "${TEST_DATA}" != "200" ]; then
     echo "Initialising Data"
     curl http://localhost:8080/api/initialise
+    pkill -f tech-maturity-api
 fi
 
-fg
+/usr/bin/supervisord -n -c /supervisord.conf
