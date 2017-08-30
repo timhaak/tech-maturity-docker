@@ -14,24 +14,15 @@ ln -sf /site/db/techdb.db /site/tech-maturity-api/src/database/techdb.db
 #    openssl dhparam -out /site/nginx_config/ssl/dhparam.pem 2048
 #fi
 
-echo "Initialise db if it doesn't exist"
-if [ ! -f /site/tech-maturity-api/src/database/techdb.db/CURRENT ]; then
-    echo "Initialising Data"
-    babel-node /site/tech-maturity-api/src --presets env &
-    sleep 2
-    curl http://localhost:8080/api/initialise
-    pkill -f tech-maturity-api
-fi
+echo "Starting servers"
+/usr/bin/supervisord -n -c /supervisord.conf &
+sleep 2
 
 TEST_DATA=$(curl -o /dev/null --silent --head --write-out '%{http_code}\n' http://localhost/api/asset_type)
 
-if [ "${TEST_DATA}" = "404" ]; then
+if [ "${TEST_DATA}" != "200" ]; then
     echo "Initialising Data"
-    babel-node /site/tech-maturity-api/src --presets env &
-    sleep 2
     curl http://localhost:8080/api/initialise
-    pkill -f tech-maturity-api
 fi
 
-echo "Starting servers"
-/usr/bin/supervisord -n -c /supervisord.conf
+fg
