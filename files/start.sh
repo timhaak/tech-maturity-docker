@@ -28,4 +28,6 @@ if [ "${TEST_DATA}" = "404" ]; then
     pkill -f tech-maturity-api
 fi
 
+sed -iE -e "s|BASE_URL|$(echo ${BASE_URL} | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')|"
+
 /usr/bin/supervisord -n -c /supervisord.conf

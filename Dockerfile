@@ -76,6 +76,8 @@ ADD ./files/supervisord.conf /supervisord.conf
 RUN chmod u+x  /start.sh && \
     chown -R nginx: /site/tech-maturity/dist
 
+ENV BASE_URL="/"
+
 WORKDIR /site/
 
 EXPOSE 80 443
