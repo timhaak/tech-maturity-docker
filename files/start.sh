@@ -26,8 +26,10 @@ if [ "${TEST_DATA}" = "404" ]; then
     echo "Initialising Data"
     curl http://localhost:8080/api/initialise
     pkill -f tech-maturity-api
+    sleep 2
+    pkill -f -9 tech-maturity-api
 fi
 
-sed -iE -e "s|BASE_URL|$(echo ${BASE_URL} | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')|"
+sed -iE -e "s|BASE_URL|$(echo ${BASE_URL} | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')|" /site/nginx_config/sites.conf
 
 /usr/bin/supervisord -n -c /supervisord.conf
