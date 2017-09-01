@@ -30,6 +30,8 @@ if [ "${TEST_DATA}" = "404" ]; then
     pkill -f -9 tech-maturity-api
 fi
 
+pkill -f -9 tech-maturity-api
+
 sed -iE -e "s|BASE_URL|$(echo ${BASE_URL} | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')|" /site/nginx_config/sites.conf
 
 /usr/bin/supervisord -n -c /supervisord.conf
