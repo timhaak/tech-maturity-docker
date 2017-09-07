@@ -1,0 +1,58 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tech-maturity
+  labels:
+    app: tech-maturity
+spec:
+  ports:
+  - port: 80
+    name: tech-maturity
+    targetPort: 80
+#  clusterIP: None
+  type: NodePort
+  selector:
+    app: tech-maturity
+---
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: tech-maturity
+spec:
+  serviceName: "tech-maturity"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tech-maturity
+    spec:
+      containers:
+      - name: tech-maturity
+        image: timhaak/tech-maturity:latest
+        ports:
+        - containerPort: 80
+          name: tech-maturity
+          protocol: TCP
+        volumeMounts:
+        - name: logs
+          mountPath: /site/logs
+        - name: db
+          mountPath: /site/db
+  volumeClaimTemplates:
+  - metadata:
+      name: logs
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 2Gi
+      storageClassName: fast
+  - metadata:
+      name: db
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi
+      storageClassName: fast
