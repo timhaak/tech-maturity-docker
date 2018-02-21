@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: tech-maturity
+  namespace: default
   labels:
     app: tech-maturity
 spec:
@@ -19,6 +20,7 @@ apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   name: tech-maturity
+  namespace: default
 spec:
   serviceName: "tech-maturity"
   replicas: 1

@@ -2,6 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: tech-maturity-ingress-rules
+  namespace: default
 spec:
   rules:
   - host: techmaturity.metmom.mmih.biz
